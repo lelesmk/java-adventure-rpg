@@ -16,13 +16,16 @@ public class Game {
 	
 	JFrame window;
 	Container con;
-	JPanel titlePanel, startButtonPanel, bodyTextPanel, choiceButtonPanel;
-	JLabel titleLabel;
+	JPanel titlePanel, startButtonPanel, bodyTextPanel, choiceButtonPanel, playerPanel;
+	JLabel titleLabel, hpLabelText, hpLabelNumber, weaponLabelText, weaponLabelName;
 	Font titleFont = new Font("Times New Roman",Font.PLAIN, 60);
 	Font buttonFont = new Font("Times New Roman",Font.PLAIN, 25);
-	Font normalFont = new Font("Times New Roman",Font.PLAIN, 20);
-	JButton startButton, choice1, choice2, choice3, choice4;
+	Font normalFont = new Font("Times New Roman",Font.PLAIN, 30);
+	JButton startButton, choice1btn, choice2btn, choice3btn, choice4btn;
 	JTextArea bodyTextArea;
+	
+	int playerHP;
+	String weapon;
 	
 	TitleScreenHandler tsHandler = new TitleScreenHandler(); // listen for button click
 	
@@ -106,29 +109,70 @@ public class Game {
 		choiceButtonPanel.setLayout(new GridLayout(4, 1));
 		con.add(choiceButtonPanel);
 		
-		choice1 = new JButton("Choice 1");
-		choice1.setBackground(Color.black);
-		choice1.setForeground(Color.black);
-		choice1.setFont(buttonFont);
-		choiceButtonPanel.add(choice1);
+		choice1btn = new JButton("Choice 1");
+		choice1btn.setBackground(Color.black);
+		choice1btn.setForeground(Color.black);
+		choice1btn.setFont(buttonFont);
+		choiceButtonPanel.add(choice1btn);
 		
-		choice2 = new JButton("Choice 2");
-		choice2.setBackground(Color.black);
-		choice2.setForeground(Color.black);
-		choice2.setFont(buttonFont);
-		choiceButtonPanel.add(choice2);
+		choice2btn = new JButton("Choice 2");
+		choice2btn.setBackground(Color.black);
+		choice2btn.setForeground(Color.black);
+		choice2btn.setFont(buttonFont);
+		choiceButtonPanel.add(choice2btn);
 		
-		choice3 = new JButton("Choice 3");
-		choice3.setBackground(Color.black);
-		choice3.setForeground(Color.black);
-		choice3.setFont(buttonFont);
-		choiceButtonPanel.add(choice3);
+		choice3btn = new JButton("Choice 3");
+		choice3btn.setBackground(Color.black);
+		choice3btn.setForeground(Color.black);
+		choice3btn.setFont(buttonFont);
+		choiceButtonPanel.add(choice3btn);
 		
-		choice4 = new JButton("Choice 4");
-		choice4.setBackground(Color.black);
-		choice4.setForeground(Color.black);
-		choice4.setFont(buttonFont);
-		choiceButtonPanel.add(choice4);
+		choice4btn = new JButton("Choice 4");
+		choice4btn.setBackground(Color.black);
+		choice4btn.setForeground(Color.black);
+		choice4btn.setFont(buttonFont);
+		choiceButtonPanel.add(choice4btn);
+		
+		/* Create player header panel */
+		playerPanel = new JPanel();
+		playerPanel.setBounds(100, 15, 600, 50);
+		playerPanel.setBackground(Color.black);
+		playerPanel.setLayout(new GridLayout(1, 4));
+		
+		/* Health Points */
+		hpLabelText = new JLabel("HP: ");
+		hpLabelText.setFont(normalFont);
+		hpLabelText.setForeground(Color.white);
+		playerPanel.add(hpLabelText);
+		hpLabelNumber = new JLabel();
+		hpLabelNumber.setFont(normalFont);
+		hpLabelNumber.setForeground(Color.white);
+		playerPanel.add(hpLabelNumber);
+		
+		/* Weapon */
+		weaponLabelText = new JLabel("Weapon: ");
+		weaponLabelText.setFont(normalFont);
+		weaponLabelText.setForeground(Color.white);
+		playerPanel.add(weaponLabelText);
+		weaponLabelName = new JLabel();
+		weaponLabelName.setFont(normalFont);
+		weaponLabelName.setForeground(Color.white);
+		playerPanel.add(weaponLabelName);
+		
+		con.add(playerPanel);
+		
+		/* Set player */
+		playerSetup();
+		
+	}
+	
+	public void playerSetup() {
+		
+		playerHP = 15;
+		weapon = "Knife";
+		
+		hpLabelNumber.setText(Integer.toString(playerHP));
+		weaponLabelName.setText(weapon);
 		
 	}
 	
