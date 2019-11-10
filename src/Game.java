@@ -25,9 +25,10 @@ public class Game {
 	JTextArea bodyTextArea;
 	
 	int playerHP;
-	String weapon;
+	String weapon, position;
 	
-	TitleScreenHandler tsHandler = new TitleScreenHandler(); // listen for button click
+	TitleScreenHandler tsHandler = new TitleScreenHandler(); // listen for start button click
+	ChoiceHandler choiceHandler = new ChoiceHandler(); // listen for choice button click
 	
 	public static void main(String[] args) {
 		
@@ -79,6 +80,9 @@ public class Game {
 		
 	}
 	
+	
+
+	/* Game Screen */
 	public void createGameScreen() {
 		
 		/* Disable start screen */
@@ -113,24 +117,32 @@ public class Game {
 		choice1btn.setBackground(Color.black);
 		choice1btn.setForeground(Color.black);
 		choice1btn.setFont(buttonFont);
+		choice1btn.addActionListener(choiceHandler); // call choice result on click
+		choice1btn.setActionCommand("c1"); // set click to c1 so program knows which option was clicked
 		choiceButtonPanel.add(choice1btn);
 		
 		choice2btn = new JButton("Choice 2");
 		choice2btn.setBackground(Color.black);
 		choice2btn.setForeground(Color.black);
 		choice2btn.setFont(buttonFont);
+		choice2btn.addActionListener(choiceHandler); // call choice result on click
+		choice2btn.setActionCommand("c2"); // set click to c2 so program knows which option was clicked
 		choiceButtonPanel.add(choice2btn);
 		
 		choice3btn = new JButton("Choice 3");
 		choice3btn.setBackground(Color.black);
 		choice3btn.setForeground(Color.black);
 		choice3btn.setFont(buttonFont);
+		choice3btn.addActionListener(choiceHandler); // call choice result on click
+		choice3btn.setActionCommand("c3"); // set click to c3 so program knows which option was clicked
 		choiceButtonPanel.add(choice3btn);
 		
 		choice4btn = new JButton("Choice 4");
 		choice4btn.setBackground(Color.black);
 		choice4btn.setForeground(Color.black);
 		choice4btn.setFont(buttonFont);
+		choice4btn.addActionListener(choiceHandler); // call choice result on click
+		choice4btn.setActionCommand("c4"); // set click to c4 so program knows which option was clicked
 		choiceButtonPanel.add(choice4btn);
 		
 		/* Create player header panel */
@@ -166,6 +178,7 @@ public class Game {
 		
 	}
 	
+	/* Initialize Player */
 	public void playerSetup() {
 		
 		playerHP = 15;
@@ -174,14 +187,87 @@ public class Game {
 		hpLabelNumber.setText(Integer.toString(playerHP));
 		weaponLabelName.setText(weapon);
 		
+		/* Player arrives at town gate */
+		townGate();
 	}
 	
+	/* Town Gate */
+	public void townGate() {
+		
+		position = "townGate";
+		
+		/* Player question */
+		bodyTextArea.setText("You are at the gate of the town. \nA guard is standing in front of you. \n\nWhat do you do?");
+		
+		/* Player answer */
+		choice1btn.setText("Talk to the guard");
+		choice2btn.setText("Attack the guard");
+		choice3btn.setText("Leave");
+		choiceButtonPanel.remove(choice4btn);
+		
+	}
+	
+	public void talkGuard() {
+		
+		position = "talkGuard";
+		
+		bodyTextArea.setText("Guard: Hello stranger. I have never seen your \nface. I'm sorry but we cannot let a stranger enter \nour town.");
+		
+		/* Player answer */
+		choice1btn.setText(">> continue >>");
+		choiceButtonPanel.remove(choice2btn);
+		choiceButtonPanel.remove(choice3btn);
+		choiceButtonPanel.remove(choice4btn);
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	/* Start Button Click Event Handler */
 	public class TitleScreenHandler implements ActionListener {
 		
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
 			
-			createGameScreen(); // result of button click
+			createGameScreen(); // result of start button click
+			
+		}
+	}
+	
+	/* Choice Button Click Event Handler */
+	public class ChoiceHandler implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			
+			
+			// result of choice button click
+			
+			String yourChoice = event.getActionCommand(); // set choice to choice button clicked
+			
+			switch(position) {
+			// If player is at the town gate	
+			case "townGate":
+				switch(yourChoice) {
+				// If player chooses button 1
+				case "c1": talkGuard(); break; // talk to guard
+				case "c2": break;
+				case "c3": break;
+				}
+				break;
+			// If player talks to the guard
+			case "talkGuard":
+				switch(yourChoice) {
+				// If player chooses button 1
+				case "c1": townGate(); break; // go back to townGate
+				}
+				
+			}
+			
 			
 		}
 	}
